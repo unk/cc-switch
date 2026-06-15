@@ -1,0 +1,47 @@
+{
+  "name": "@naram/cc-switch",
+  "version": "0.1.0",
+  "description": "Interactive CLI to set up isolated Claude Code profiles (multiple accounts / custom model gateways) with one command.",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "cli",
+    "profile",
+    "anthropic",
+    "config"
+  ],
+  "license": "MIT",
+  "author": "naram",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "cc-switch": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "tsc --noEmit && prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "prettier": "^3.2.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  }
+}
