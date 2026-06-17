@@ -6,14 +6,14 @@ Claude Code를 **여러 개의 프로필**로 손쉽게 세팅하는 대화형 C
 
 - 배포: `npx @naram/cc-switch` 로 즉시 실행
 - 실행하면 대화형 질문을 던지고, 답변대로 환경 설정을 자동 구성
-- 결과물: `cc`, `claude-o`, `cc-glm` 같은 명령으로 서로 다른 계정/모델의
+- 결과물: `cc`, `claude-o`, `cc-or` 같은 명령으로 서로 다른 계정/모델의
   Claude Code를 바로 실행
 
 ## 왜 만드는가
 
 여러 Claude 계정(`claude`, `claude-c`, `claude-o`)과 서드파티 모델 연결
-(`cc-glm` = GLM 등)을 alias로 운용하는 세팅을, 누구나 대화형으로 따라할 수 있게
-자동화해 배포하기 위함.
+(`cc-or` = OpenRouter 등)을 alias로 운용하는 세팅을, 누구나 대화형으로 따라할 수
+있게 자동화해 배포하기 위함.
 
 ## "프로필"의 정의 (중요)
 

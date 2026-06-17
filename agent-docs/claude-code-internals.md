@@ -17,10 +17,10 @@
 
 | 변수                                         | 용도                                         | 비고                                                         |
 | -------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------ |
-| `ANTHROPIC_BASE_URL`                         | 요청을 게이트웨이로 라우팅 (Messages 포맷)   | 예: `https://api.z.ai/api/anthropic`                         |
-| `ANTHROPIC_AUTH_TOKEN`                       | `Authorization: Bearer` 헤더로 전송          | 게이트웨이/프록시 베어러 토큰용                              |
+| `ANTHROPIC_BASE_URL`                         | 요청을 게이트웨이로 라우팅 (Messages 포맷)   | 예: `https://openrouter.ai/api` (OpenRouter)                 |
+| `ANTHROPIC_AUTH_TOKEN`                       | `Authorization: Bearer` 헤더로 전송          | 게이트웨이/프록시 베어러 토큰용 (OpenRouter는 API 키)        |
 | `ANTHROPIC_API_KEY`                          | `X-Api-Key` 헤더로 전송                      | Anthropic 직접 호출용. **설정 시 AUTH_TOKEN보다 우선**       |
-| `ANTHROPIC_MODEL`                            | 세션 기본 모델 override                      | `glm-5.1` 등                                                 |
+| `ANTHROPIC_MODEL`                            | 세션 기본 모델 override                      | `anthropic/claude-opus-4.8` 등                               |
 | `ANTHROPIC_SMALL_FAST_MODEL`                 | 소형/빠른 모델                               | **deprecated** → 신규는 `ANTHROPIC_DEFAULT_HAIKU_MODEL` 권장 |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL`              | `haiku` 별칭 매핑 (소형 모델 권장 경로)      |                                                              |
 | `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY` | 게이트웨이 `/v1/models`로 `/model` 목록 채움 | `1`                                                          |
@@ -40,10 +40,10 @@
   ```json
   {
     "env": {
-      "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic",
-      "ANTHROPIC_AUTH_TOKEN": "<token>",
-      "ANTHROPIC_MODEL": "glm-5.1",
-      "ANTHROPIC_SMALL_FAST_MODEL": "glm-4.5-air"
+      "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+      "ANTHROPIC_AUTH_TOKEN": "<openrouter-api-key>",
+      "ANTHROPIC_MODEL": "anthropic/claude-opus-4.8",
+      "ANTHROPIC_SMALL_FAST_MODEL": "anthropic/claude-haiku-4.5"
     }
   }
   ```
@@ -52,9 +52,9 @@
 
 ```bash
 alias claude-personal='CLAUDE_CONFIG_DIR=~/.claude-personal claude'
-alias cc-glm='CLAUDE_CONFIG_DIR=~/.cc-glm \
-  ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic \
-  ANTHROPIC_AUTH_TOKEN=<token> claude'
+alias cc-or='CLAUDE_CONFIG_DIR=~/.cc-or \
+  ANTHROPIC_BASE_URL=https://openrouter.ai/api \
+  ANTHROPIC_AUTH_TOKEN=<openrouter-api-key> claude'
 ```
 
 본 도구는 이 패턴을 자동 생성하되, 토큰은 rc 파일에 평문 노출하지 않도록

@@ -26,7 +26,7 @@ ${color.bold('OPTIONS')}
 ${color.bold('EXAMPLES')}
   npx @naram/cc-switch            # create a profile interactively
   cc-switch list
-  cc-switch remove cc-glm
+  cc-switch remove cc-or
 
 Profiles are stored under ${color.dim('~/.cc-switch')}. Secrets live only in each
 profile's settings.json (chmod 0600) — never in your shell rc.`;

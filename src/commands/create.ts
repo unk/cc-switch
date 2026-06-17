@@ -73,16 +73,20 @@ export async function runCreate(): Promise<number> {
         message: 'Authentication method',
         initialValue: 'token' as AuthMethod,
         options: [
-          { value: 'token', label: 'AUTH_TOKEN (Bearer)', hint: 'most gateways' },
+          { value: 'token', label: 'AUTH_TOKEN (Bearer)', hint: 'OpenRouter, most gateways' },
           { value: 'apiKey', label: 'API_KEY (x-api-key)', hint: 'Anthropic-style key' },
         ],
       }),
     );
 
+    p.log.info(
+      `OpenRouter is the most common gateway. Its Claude-compatible base URL is ${color.cyan('https://openrouter.ai/api')} ${color.dim('(auth: AUTH_TOKEN = your OpenRouter API key)')}.\n${color.dim('Tip: press')} ${color.cyan('Tab')} ${color.dim('at any prompt below to autofill the suggested value.')}`,
+    );
+
     baseUrl = ensure(
       await p.text({
         message: 'Gateway base URL',
-        placeholder: 'https://api.z.ai/api/anthropic',
+        placeholder: 'https://openrouter.ai/api',
         validate: (v) => validateBaseUrl(v ?? '') ?? undefined,
       }),
     ).trim();
@@ -97,7 +101,7 @@ export async function runCreate(): Promise<number> {
     const m = ensure(
       await p.text({
         message: 'Default model (ANTHROPIC_MODEL)',
-        placeholder: 'glm-5.1',
+        placeholder: 'anthropic/claude-opus-4.8',
       }),
     ).trim();
     model = m || undefined;
@@ -105,7 +109,7 @@ export async function runCreate(): Promise<number> {
     const sfm = ensure(
       await p.text({
         message: 'Small/fast model (optional, Enter to skip)',
-        placeholder: 'glm-4.5-air',
+        placeholder: 'anthropic/claude-haiku-4.5',
       }),
     ).trim();
     smallFastModel = sfm || undefined;

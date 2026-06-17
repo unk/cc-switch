@@ -22,9 +22,9 @@ export interface Profile {
   baseUrl?: string;
   /** How the gateway authenticates (custom only). */
   authMethod?: AuthMethod;
-  /** Default model override (e.g. "glm-5.1"). */
+  /** Default model override (e.g. "anthropic/claude-opus-4.8"). */
   model?: string;
-  /** Small/fast model override (e.g. "glm-4.5-air"). */
+  /** Small/fast model override (e.g. "anthropic/claude-haiku-4.5"). */
   smallFastModel?: string;
   /** Which launchers were installed. */
   launchers: Launcher[];

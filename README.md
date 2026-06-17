@@ -9,7 +9,7 @@
 npx @naram/cc-switch
 ```
 
-실행하면 몇 가지 질문에 답하는 것만으로 `cc`, `claude-o`, `cc-glm` 같은 명령으로
+실행하면 몇 가지 질문에 답하는 것만으로 `cc`, `claude-o`, `cc-or` 같은 명령으로
 서로 다른 계정·모델의 Claude Code를 바로 띄울 수 있게 됩니다.
 
 ---
@@ -37,7 +37,7 @@ npm i -g @naram/cc-switch
 cc-switch            # = cc-switch create
 cc-switch list
 cc-switch doctor
-cc-switch remove cc-glm
+cc-switch remove cc-or
 ```
 
 ### 예시 1 — 표준 계정 추가
@@ -51,20 +51,24 @@ launchers    : alias
 → 새 셸에서 `cc-o` 를 실행하면, 메인 계정과 분리된 환경에서 Claude Code가 뜨고
 처음 한 번 로그인하면 그 프로필에 자격증명이 귀속됩니다.
 
-### 예시 2 — 커스텀 게이트웨이(GLM 등)
+### 예시 2 — 커스텀 게이트웨이(OpenRouter 등)
+
+커스텀 모델을 쓸 때 가장 많이 쓰이는 게이트웨이는 **[OpenRouter](https://openrouter.ai)**
+입니다. base URL 질문에서 **Tab** 키를 누르면 아래 제안 값(`https://openrouter.ai/api`)이
+자동 완성됩니다.
 
 ```
-alias            : cc-glm
+alias            : cc-or
 custom model     : Yes
-auth method      : AUTH_TOKEN (Bearer)
-base URL         : https://api.z.ai/api/anthropic
-auth token       : ********           (입력 마스킹)
-model            : glm-5.1
-small fast model : glm-4.5-air
+auth method      : AUTH_TOKEN (Bearer)   (= OpenRouter API 키)
+base URL         : https://openrouter.ai/api
+auth token       : ********              (입력 마스킹)
+model            : anthropic/claude-opus-4.8
+small fast model : anthropic/claude-haiku-4.5
 launchers        : alias + script
 ```
 
-→ `cc-glm` 명령으로 해당 게이트웨이/모델에 연결된 Claude Code가 즉시 실행됩니다.
+→ `cc-or` 명령으로 해당 게이트웨이/모델에 연결된 Claude Code가 즉시 실행됩니다.
 
 ---
 
@@ -85,7 +89,7 @@ launchers        : alias + script
 ```
 ~/.cc-switch/
 ├── profiles.json          # 중앙 레지스트리 (메타데이터, 0600) — 비밀은 저장 안 함
-├── cc-glm/                # 프로필의 CLAUDE_CONFIG_DIR
+├── cc-or/                 # 프로필의 CLAUDE_CONFIG_DIR
 │   ├── settings.json      # env(BASE_URL/AUTH_TOKEN/MODEL...) — 0600
 │   └── ...                # (로그인 후) 자격증명·세션·히스토리
 └── cc-o/
@@ -96,15 +100,15 @@ launchers        : alias + script
 
 - **alias** — 셸 rc 파일(`~/.zshrc` 등)에 마커 블록으로 주입
   ```bash
-  # >>> cc-switch: cc-glm >>>
-  alias cc-glm='CLAUDE_CONFIG_DIR="$HOME/.cc-switch/cc-glm" claude'
-  # <<< cc-switch: cc-glm <<<
+  # >>> cc-switch: cc-or >>>
+  alias cc-or='CLAUDE_CONFIG_DIR="$HOME/.cc-switch/cc-or" claude'
+  # <<< cc-switch: cc-or <<<
   ```
 - **script** — 실행 파일(기본 `~/.local/bin/<alias>`):
   ```sh
   #!/bin/sh
-  # cc-switch launcher: cc-glm
-  export CLAUDE_CONFIG_DIR="$HOME/.cc-switch/cc-glm"
+  # cc-switch launcher: cc-or
+  export CLAUDE_CONFIG_DIR="$HOME/.cc-switch/cc-or"
   exec claude "$@"
   ```
 

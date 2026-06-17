@@ -26,7 +26,7 @@
 │   ├── settings.json                # env(BASE_URL/AUTH_TOKEN/MODEL...) 0600
 │   ├── .credentials.json            # (Claude 로그인 시 생성, Linux/Win)
 │   └── ...                          # 세션/히스토리
-└── cc-glm/
+└── cc-or/
     └── settings.json
 ```
 

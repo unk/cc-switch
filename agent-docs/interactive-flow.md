@@ -7,10 +7,13 @@
 2. **커스텀 모델 설정? (y/n)**
    - **(y)**
      - 인증 방식: `AUTH_TOKEN(Bearer)` / `API_KEY(x-api-key)` — 기본 AUTH_TOKEN.
-     - **BASE URL** : 예 `https://api.z.ai/api/anthropic`
+     - 인증 방식 선택 후, OpenRouter(가장 흔한 게이트웨이) 안내 + Tab 자동완성
+       팁을 `p.log.info`로 노출.
+     - **BASE URL** : 기본 예시 `https://openrouter.ai/api` (OpenRouter의 Claude
+       호환 엔드포인트). OpenRouter는 `AUTH_TOKEN` = OpenRouter API 키.
      - **AUTH TOKEN / API KEY** : 마스킹 입력
-     - **MODEL** : 예 `glm-5.1`
-     - **SMALL FAST MODEL** (엔터 시 생략) : 예 `glm-4.5-air`
+     - **MODEL** : 예 `anthropic/claude-opus-4.8` (OpenRouter는 `vendor/model` 슬러그)
+     - **SMALL FAST MODEL** (엔터 시 생략) : 예 `anthropic/claude-haiku-4.5`
    - **(n)** : 표준 Claude 계정. 격리 config dir만 만들고 첫 실행 시 `claude`
      로그인. (선택) 고정 모델 지정.
 3. **실행 방식** : alias / 래퍼 스크립트 / 둘 다.
@@ -27,6 +30,10 @@
 - 시크릿: 입력 마스킹, 화면에 토큰 재출력 금지, 파일 0600.
 - fish는 alias 문법이 다름 → `env` 프리픽스로 별도 처리.
 - Windows(PowerShell)는 v1 범위 외.
+- **Tab 자동완성**: `@clack/core`의 `text` 프롬프트는 입력이 비어 있을 때 Tab을
+  누르면 `placeholder` 값을 자동 입력한다(코어 내장 동작, 별도 구현 불필요).
+  따라서 placeholder = 권장 예시값으로 두면 사용자는 Tab 한 번으로 채울 수 있다.
+  (`password` 프롬프트는 placeholder가 없어 해당 없음.)
 
 ## alias 마커 블록 (idempotency)
 

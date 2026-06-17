@@ -10,7 +10,7 @@ npx @naram/cc-switch
 ```
 
 Just answer a few questions, and you'll be able to launch Claude Code with
-different accounts and models using commands like `cc`, `claude-o`, or `cc-glm`.
+different accounts and models using commands like `cc`, `claude-o`, or `cc-or`.
 
 ---
 
@@ -39,7 +39,7 @@ npm i -g @naram/cc-switch
 cc-switch            # = cc-switch create
 cc-switch list
 cc-switch doctor
-cc-switch remove cc-glm
+cc-switch remove cc-or
 ```
 
 ### Example 1 — Add a standard account
@@ -54,20 +54,24 @@ launchers    : alias
 from your main account. Log in once, and the credentials are bound to that
 profile.
 
-### Example 2 — Custom gateway (e.g. GLM)
+### Example 2 — Custom gateway (e.g. OpenRouter)
+
+The most popular gateway for custom models is **[OpenRouter](https://openrouter.ai)**.
+At the base URL prompt, press **Tab** to autofill the suggested value
+(`https://openrouter.ai/api`).
 
 ```
-alias            : cc-glm
+alias            : cc-or
 custom model     : Yes
-auth method      : AUTH_TOKEN (Bearer)
-base URL         : https://api.z.ai/api/anthropic
-auth token       : ********           (input masked)
-model            : glm-5.1
-small fast model : glm-4.5-air
+auth method      : AUTH_TOKEN (Bearer)   (= your OpenRouter API key)
+base URL         : https://openrouter.ai/api
+auth token       : ********              (input masked)
+model            : anthropic/claude-opus-4.8
+small fast model : anthropic/claude-haiku-4.5
 launchers        : alias + script
 ```
 
-→ The `cc-glm` command immediately launches Claude Code connected to that
+→ The `cc-or` command immediately launches Claude Code connected to that
 gateway/model.
 
 ---
@@ -89,7 +93,7 @@ gateway/model.
 ```
 ~/.cc-switch/
 ├── profiles.json          # Central registry (metadata, 0600) — no secrets stored
-├── cc-glm/                # The profile's CLAUDE_CONFIG_DIR
+├── cc-or/                 # The profile's CLAUDE_CONFIG_DIR
 │   ├── settings.json      # env (BASE_URL/AUTH_TOKEN/MODEL...) — 0600
 │   └── ...                # (after login) credentials, sessions, history
 └── cc-o/
@@ -100,15 +104,15 @@ Launchers:
 
 - **alias** — injected into your shell rc file (`~/.zshrc`, etc.) as a marker block
   ```bash
-  # >>> cc-switch: cc-glm >>>
-  alias cc-glm='CLAUDE_CONFIG_DIR="$HOME/.cc-switch/cc-glm" claude'
-  # <<< cc-switch: cc-glm <<<
+  # >>> cc-switch: cc-or >>>
+  alias cc-or='CLAUDE_CONFIG_DIR="$HOME/.cc-switch/cc-or" claude'
+  # <<< cc-switch: cc-or <<<
   ```
 - **script** — an executable file (default `~/.local/bin/<alias>`):
   ```sh
   #!/bin/sh
-  # cc-switch launcher: cc-glm
-  export CLAUDE_CONFIG_DIR="$HOME/.cc-switch/cc-glm"
+  # cc-switch launcher: cc-or
+  export CLAUDE_CONFIG_DIR="$HOME/.cc-switch/cc-or"
   exec claude "$@"
   ```
 

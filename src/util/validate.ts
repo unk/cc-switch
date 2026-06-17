@@ -43,7 +43,7 @@ export function validateBaseUrl(value: string): string | null {
   try {
     url = new URL(v);
   } catch {
-    return 'Base URL must be a valid URL (e.g. https://api.z.ai/api/anthropic).';
+    return 'Base URL must be a valid URL (e.g. https://openrouter.ai/api).';
   }
   if (url.protocol !== 'http:' && url.protocol !== 'https:') {
     return 'Base URL must use http or https.';

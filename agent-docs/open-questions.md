@@ -7,8 +7,10 @@
 - **현재 상태**: 실제 게이트웨이 토큰 부재로 **실모델 검증 미실시.**
 - **현재 구현(1차 방식)**: `settings.json env`에 `AUTH_TOKEN`/`BASE_URL`을 기록하고,
   런처는 `CLAUDE_CONFIG_DIR`만 export한다.
-- **검증 방법**: 실제 토큰 확보 시 `cc-glm` 프로필을 만들고 `cc-glm`으로 실행해
-  게이트웨이 라우팅·인증이 되는지 확인.
+- **검증 방법**: 실제 토큰 확보 시 `cc-or` 프로필(OpenRouter,
+  `https://openrouter.ai/api`, `AUTH_TOKEN`=OpenRouter API 키)을 만들고 `cc-or`로
+  실행해 게이트웨이 라우팅·인증이 되는지 확인. (OpenRouter는 키 발급이 쉬워 실측에
+  적합.)
 
 ### 폴백 경로 (검증 실패 시)
 
