@@ -1,6 +1,6 @@
 {
   "name": "@naram/cc-switch",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Interactive CLI to set up isolated Claude Code profiles (multiple accounts / custom model gateways) with one command.",
   "keywords": [
     "claude",

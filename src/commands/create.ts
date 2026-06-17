@@ -102,6 +102,7 @@ export async function runCreate(): Promise<number> {
       await p.text({
         message: 'Default model (ANTHROPIC_MODEL)',
         placeholder: 'anthropic/claude-opus-4.8',
+        defaultValue: '',
       }),
     ).trim();
     model = m || undefined;
@@ -110,6 +111,7 @@ export async function runCreate(): Promise<number> {
       await p.text({
         message: 'Small/fast model (optional, Enter to skip)',
         placeholder: 'anthropic/claude-haiku-4.5',
+        defaultValue: '',
       }),
     ).trim();
     smallFastModel = sfm || undefined;
@@ -125,6 +127,7 @@ export async function runCreate(): Promise<number> {
         await p.text({
           message: 'Default model (ANTHROPIC_MODEL)',
           placeholder: 'claude-opus-4-8',
+          defaultValue: '',
         }),
       ).trim();
       model = m || undefined;
