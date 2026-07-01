@@ -24,6 +24,8 @@ export interface ProfileSettingsSpec {
   secret?: string;
   model?: string;
   smallFastModel?: string;
+  /** `statusLine` config copied from the default profile, if the user opted in. */
+  statusLine?: unknown;
 }
 
 interface ClaudeSettings {
@@ -67,6 +69,13 @@ export function writeProfileSettings(alias: string, spec: ProfileSettingsSpec): 
   if (Object.keys(env).length > 0) next.env = env;
   else delete next.env;
 
+  if (spec.statusLine !== undefined) next.statusLine = spec.statusLine;
+
   writeJson(p, next, 0o600);
   return p;
+}
+
+/** Read the `statusLine` key from a settings.json, if present. */
+export function readStatusLine(settingsPath: string): unknown {
+  return readJson<ClaudeSettings>(settingsPath, {}).statusLine;
 }

@@ -17,6 +17,8 @@ export interface CreateSpec {
   secret?: string;
   model?: string;
   smallFastModel?: string;
+  /** `statusLine` config copied from the default profile, if the user opted in. */
+  statusLine?: unknown;
   launchers: Launcher[];
   /** Resolved absolute path for the wrapper script (when 'script' is selected). */
   scriptPath?: string;
@@ -49,6 +51,7 @@ export function applyProfile(spec: CreateSpec): ApplyResult {
     secret: spec.secret,
     model: spec.model,
     smallFastModel: spec.smallFastModel,
+    statusLine: spec.statusLine,
   });
 
   let aliasResult: AliasInjectResult | undefined;

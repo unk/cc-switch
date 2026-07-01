@@ -40,6 +40,16 @@ export function defaultBinDir(): string {
   return path.join(home(), '.local', 'bin');
 }
 
+/** The user's default (non-cc-switch) Claude config dir: ~/.claude */
+export function defaultClaudeConfigDir(): string {
+  return path.join(home(), '.claude');
+}
+
+/** The default profile's settings.json, outside any cc-switch-managed profile. */
+export function defaultSettingsPath(): string {
+  return path.join(defaultClaudeConfigDir(), 'settings.json');
+}
+
 /**
  * Expand a leading ~ to the home directory so user-entered paths like
  * "~/.local/bin" resolve correctly.

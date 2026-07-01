@@ -2,8 +2,8 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { buildManagedEnv, writeProfileSettings } from '../src/core/settings.js';
-import { settingsPathFor } from '../src/core/paths.js';
+import { buildManagedEnv, readStatusLine, writeProfileSettings } from '../src/core/settings.js';
+import { defaultSettingsPath, settingsPathFor } from '../src/core/paths.js';
 
 let tmp: string;
 
@@ -95,5 +95,30 @@ describe('writeProfileSettings', () => {
     expect(json.env.FOO).toBe('bar');
     expect(json.env.ANTHROPIC_API_KEY).toBeUndefined();
     expect(json.env.ANTHROPIC_AUTH_TOKEN).toBe('t');
+  });
+
+  it('writes a statusLine when provided, and leaves it untouched when omitted on re-write', () => {
+    const statusLine = { type: 'command', command: '~/.claude/statusline.sh' };
+    writeProfileSettings('cc', { custom: false, statusLine });
+    let json = JSON.parse(fs.readFileSync(settingsPathFor('cc'), 'utf8'));
+    expect(json.statusLine).toEqual(statusLine);
+
+    writeProfileSettings('cc', { custom: false });
+    json = JSON.parse(fs.readFileSync(settingsPathFor('cc'), 'utf8'));
+    expect(json.statusLine).toEqual(statusLine);
+  });
+});
+
+describe('readStatusLine', () => {
+  it('returns undefined when the settings file is absent', () => {
+    expect(readStatusLine(defaultSettingsPath())).toBeUndefined();
+  });
+
+  it('reads the statusLine key from an existing settings.json', () => {
+    const p = defaultSettingsPath();
+    fs.mkdirSync(path.dirname(p), { recursive: true });
+    const statusLine = { type: 'command', command: 'echo hi' };
+    fs.writeFileSync(p, JSON.stringify({ statusLine }));
+    expect(readStatusLine(p)).toEqual(statusLine);
   });
 });

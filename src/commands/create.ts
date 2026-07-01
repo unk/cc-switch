@@ -1,9 +1,16 @@
 import * as p from '@clack/prompts';
 import path from 'node:path';
 import { applyProfile } from '../core/apply.js';
-import { configDirFor, defaultBinDir, expandHome, tildify } from '../core/paths.js';
+import {
+  configDirFor,
+  defaultBinDir,
+  defaultSettingsPath,
+  expandHome,
+  tildify,
+} from '../core/paths.js';
 import type { AuthMethod, Launcher } from '../core/profile.js';
 import { getProfile } from '../core/registry.js';
+import { readStatusLine } from '../core/settings.js';
 import { claudeInstalled, commandExists, detectShell, isOnPath } from '../installers/shell.js';
 import { color } from '../util/log.js';
 import { validateAlias, validateBaseUrl, validateRequired } from '../util/validate.js';
@@ -173,7 +180,20 @@ export async function runCreate(): Promise<number> {
     );
   }
 
-  // 4. Summary + confirm --------------------------------------------------
+  // 4. Status line ----------------------------------------------------------
+  const defaultStatusLine = readStatusLine(defaultSettingsPath());
+  let statusLine: unknown;
+  if (defaultStatusLine !== undefined) {
+    const copyStatusLine = ensure(
+      await p.confirm({
+        message: 'Copy the status line setting from your default profile (~/.claude)?',
+        initialValue: true,
+      }),
+    );
+    if (copyStatusLine) statusLine = defaultStatusLine;
+  }
+
+  // 5. Summary + confirm --------------------------------------------------
   const configDir = configDirFor(alias);
   const summaryLines = [
     `${color.dim('alias')}      ${alias}`,
@@ -187,6 +207,7 @@ export async function runCreate(): Promise<number> {
       : []),
     ...(model ? [`${color.dim('model')}      ${model}`] : []),
     ...(smallFastModel ? [`${color.dim('smallFast')}  ${smallFastModel}`] : []),
+    ...(statusLine !== undefined ? [`${color.dim('statusLine')} copied from default profile`] : []),
     `${color.dim('configDir')}  ${tildify(configDir)}`,
     `${color.dim('launchers')}  ${launchers.join(', ')}`,
     ...(scriptPath ? [`${color.dim('script')}     ${tildify(scriptPath)}`] : []),
@@ -200,7 +221,7 @@ export async function runCreate(): Promise<number> {
     return 0;
   }
 
-  // 5. Apply --------------------------------------------------------------
+  // 6. Apply --------------------------------------------------------------
   const s = p.spinner();
   s.start('Writing profile');
 
@@ -212,6 +233,7 @@ export async function runCreate(): Promise<number> {
     secret,
     model,
     smallFastModel,
+    statusLine,
     launchers,
     scriptPath,
     shell,
@@ -220,7 +242,7 @@ export async function runCreate(): Promise<number> {
 
   s.stop('Profile written');
 
-  // 6. Post-install guidance ---------------------------------------------
+  // 7. Post-install guidance ---------------------------------------------
   const next: string[] = [];
   if (launchers.includes('alias')) {
     next.push(`Open a new shell, or run: ${color.cyan(`source ${tildify(shell.rcPath)}`)}`);
